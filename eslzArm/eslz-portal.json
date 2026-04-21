@@ -95,6 +95,19 @@
                                 "method": "GET",
                                 "path": "/providers/Microsoft.Management/managementGroups?api-version=2020-05-01"
                             }
+                        },
+                        {
+                            "name": "deploymentLocation",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Deployment location",
+                            "toolTip": "Select the Azure region used for deploying management resources (Log Analytics workspace, resource groups, etc.).",
+                            "filter": true,
+                            "filterPlaceholder": "Filter locations...",
+                            "defaultValue": "East US",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": "[map(steps('basics').getLocations.value, (item) => parse(concat('{\"label\":\"', item.displayName, '\",\"value\":\"', item.name, '\"}')))]"
+                            }
                         }
                     ]
                 },
@@ -1913,7 +1926,7 @@
                             "label": "Region for the first networking hub",
                             "filter": true,
                             "toolTip": "Select the target region for you connectivity deployment (requires you to provide a subscriptionId for connectivity)",
-                            "defaultValue": "[steps('basics').resourceScope.location.displayName]",
+                            "defaultValue": "[steps('basics').deploymentLocation]",
                             "constraints": {
                                 "allowedValues": "[map(steps('basics').getLocations.value,(item) => parse(concat('{\"label\":\"',item.displayName,'\",\"value\":\"',item.name,'\"}')))]",
                                 "required": true
@@ -10887,8 +10900,8 @@
                 "enableServiceHealth": "[steps('monitor').enableServiceHealth]",
                 "enableServiceHealthBuiltIn": "[steps('monitor').esServiceHealthBuiltInTitle.enableServiceHealthBuiltIn]",
                 "enableMonitorBaselines": "[steps('monitor').enableMonitorBaselines]",
-                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', steps('basics').resourceScope.location.name))]",
-                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', steps('basics').resourceScope.location.name))]",
+                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', steps('basics').deploymentLocation))]",
+                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', steps('basics').deploymentLocation))]",
                 "ambaAgEmailContact": "[steps('monitor').esAmbaAgConfig.ambaAgEmailContact]",
                 "ambaAgArmRole": "[steps('monitor').esAmbaAgConfig.ambaAgArmRole]",
                 "ambaAgServiceHook": "[steps('monitor').esAmbaAgConfig.ambaAgServiceHook]",
@@ -11154,7 +11167,7 @@
             },
             "kind": "ManagementGroup",
             "managementGroupId": "[steps('core').enterpriseScaleCompanyPrefix]",
-            "location": "[steps('basics').resourceScope.location.name]"
+            "location": "[steps('basics').deploymentLocation]"
         }
     }
 }
