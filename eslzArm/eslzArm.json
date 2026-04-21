@@ -5223,7 +5223,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ddosDeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('connectivitySubscriptionId'), parameters('resourceNames').ddosRg)]",
+            "subscriptionId": "[parameters('connectivitySubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').ddosRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').ddosRgDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').activityDiagnosticsPolicyDeploymentName)]",
@@ -6360,7 +6361,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('deploymentNames').privateDnsZonesDeploymentName, copyIndex())]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('connectivitySubscriptionId'), parameters('resourceNames').privateDnsRg)]",
+            "subscriptionId": "[parameters('connectivitySubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').privateDnsRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').privateDnsZoneRgDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').activityDiagnosticsPolicyDeploymentName)]",
@@ -6441,7 +6443,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('deploymentNames').privateDnsZones2DeploymentName, copyIndex())]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('connectivitySubscriptionId'), parameters('resourceNames').privateDnsRg2)]",
+            "subscriptionId": "[parameters('connectivitySubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').privateDnsRg2]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').privateDnsZoneRg2DeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').activityDiagnosticsPolicyDeploymentName)]",
@@ -6856,7 +6859,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').vnetConnectivityRouteTableDeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('connectivitySubscriptionId'), parameters('resourceNames').connectivityRg)]",
+            "subscriptionId": "[parameters('connectivitySubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').connectivityRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').privateDnsZoneRgDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').vnetConnectivityHubDeploymentName)]",
@@ -6905,7 +6909,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').vnetConnectivityRouteTable2DeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('connectivitySubscriptionId'), parameters('resourceNames').connectivityRgSecondary)]",
+            "subscriptionId": "[parameters('connectivitySubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').connectivityRgSecondary]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').privateDnsZoneRgDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').vnetConnectivityHubDeploymentName)]",
@@ -9166,7 +9171,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLiteDeploymentNames').ddosLiteDeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('singlePlatformSubscriptionId'), parameters('resourceNames').ddosRg)]",
+            "subscriptionId": "[parameters('singlePlatformSubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').ddosRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').ddosRgLiteDeploymentName)]"
             ],
@@ -9270,7 +9276,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('esLiteDeploymentNames').privateDnsZonesLiteDeploymentName, copyIndex())]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('singlePlatformSubscriptionId'), parameters('resourceNames').privateDnsRg)]",
+            "subscriptionId": "[parameters('singlePlatformSubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').privateDnsRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').privateDnsZoneRgLiteDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').activityDiagnosticsPolicyDeploymentName)]",
@@ -9319,7 +9326,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('esLiteDeploymentNames').privateDnsZonesLite2DeploymentName, copyIndex())]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('singlePlatformSubscriptionId'), parameters('resourceNames').privateDnsRg2)]",
+            "subscriptionId": "[parameters('singlePlatformSubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').privateDnsRg2]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').privateDnsZoneRgLite2DeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').activityDiagnosticsPolicyDeploymentName)]",
@@ -9936,7 +9944,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLitedeploymentNames').vnetConnectivityRouteTableDeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('singlePlatformSubscriptionId'), parameters('resourceNames').connectivityRg)]",
+            "subscriptionId": "[parameters('singlePlatformSubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').connectivityRg]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLitedeploymentNames').privateDnsZoneRgLiteDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('esLitedeploymentNames').vnetConnectivityHubLiteDeploymentName)]",
@@ -9985,7 +9994,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLiteDeploymentNames').vnetConnectivityRouteTable2DeploymentName]",
-            "scope": "[format('/subscriptions/{0}/resourceGroups/{1}', parameters('singlePlatformSubscriptionId'), parameters('resourceNames').connectivityRgSecondary)]",
+            "subscriptionId": "[parameters('singlePlatformSubscriptionId')]",
+            "resourceGroup": "[parameters('resourceNames').connectivityRgSecondary]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLitedeploymentNames').privateDnsZoneRgLiteDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('esLitedeploymentNames').vnetConnectivityHubLiteDeploymentName)]",
