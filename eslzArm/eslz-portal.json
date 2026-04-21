@@ -11166,7 +11166,7 @@
             },
             "kind": "ManagementGroup",
             "managementGroupId": "[steps('core').enterpriseScaleCompanyPrefix]",
-            "location": "[steps('basics').deploymentLocation]"
+            "location": "[location()]"
         }
     }
 }
