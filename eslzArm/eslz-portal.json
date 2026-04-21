@@ -10834,7 +10834,7 @@
         },
         "outputs": {
             "parameters": {
-                "enterpriseScaleCompanyPrefix": "[steps('basics').mgSelector.name]",
+                "enterpriseScaleCompanyPrefix": "[steps('basics').mgSelector]",
                 "singlePlatformSubscriptionId": "[steps('core').singleSubscription.selector]",
                 "denyClassicResources": "[steps('core').denyClassicResources]",
                 "denyVMUnmanagedDisk": "[steps('core').denyVMUnmanagedDisk]",
@@ -11136,7 +11136,7 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[steps('basics').mgSelector.name]",
+            "managementGroupId": "[steps('basics').mgSelector]",
             "location": "[steps('basics').resourceScope.location.name]"
         }
     }
