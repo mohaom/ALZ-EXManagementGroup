@@ -57,7 +57,7 @@ The Azure Landing Zones (Enterprise-Scale Architecture) is modular by design and
 
 > **Note:** This deployment uses the customized repository [mohaom/ALZ-EXManagementGroup](https://github.com/mohaom/ALZ-EXManagementGroup) which targets **existing** management groups instead of creating new ones.
 
-[![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fmain%2FeslzArm%2FeslzArm.json/createUIDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fmain%2FeslzArm%2Feslz-portal.json)
+[![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fmain%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fmain%2FeslzArm%2Feslz-portal.json)
 
 You can find all of the implementation options for Azure Landing Zones here: [aka.ms/alz/aac](https://aka.ms/alz/aac#platform)
 
