@@ -104,7 +104,7 @@
                             "type": "Microsoft.Common.InfoBox",
                             "visible": true,
                             "options": {
-                                "text": "Azure Landing Zones ARM deployment requires access at the tenant root (/) scope. Visit this link to ensure you have the appropriate RBAC permission to complete the deployment",
+                                "text": "This customized deployment uses existing management groups. It requires Owner permission at the top-level management group (matching the Resource prefix provided below), not tenant root. Ensure the user account or service principal has the appropriate RBAC permission.",
                                 "uri": "https://docs.microsoft.com/azure/role-based-access-control/elevate-access-global-admin",
                                 "style": "Info"
                             }
@@ -11144,7 +11144,8 @@
                     "serviceHealthAlertRg": "[steps('monitor').esServiceHealthBuiltInTitle.serviceHealthAlertRgCustomName]"
                 }
             },
-            "kind": "Tenant",
+            "kind": "ManagementGroup",
+            "managementGroupId": "[steps('core').enterpriseScaleCompanyPrefix]",
             "location": "[steps('basics').resourceScope.location.name]"
         }
     }
