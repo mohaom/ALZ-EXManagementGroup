@@ -55,9 +55,18 @@ It is also assumed that readers have a broad understanding of key Azure construc
 
 The Azure Landing Zones (Enterprise-Scale Architecture) is modular by design and allows customers to start with foundational Landing Zones that support their application portfolios, regardless of whether the applications are being migrated or are newly developed and deployed to Azure. The architecture can scale alongside the customer's business requirements regardless of scale point. In this repository we are providing the following five templates representing different scenarios composed using ARM templates.
 
-> **Note:** This deployment uses the customized repository [mohaom/ALZ-EXManagementGroup](https://github.com/mohaom/ALZ-EXManagementGroup) which targets **existing** management groups instead of creating new ones.
+> **Note:** This is a customized fork ([mohaom/ALZ-EXManagementGroup](https://github.com/mohaom/ALZ-EXManagementGroup)) of the official ALZ reference implementation with the following changes:
+>
+> - **No tenant root access required** — all ARM templates deploy at management group scope, so only **Owner** permission on the target management group is needed (no Global Admin / Tenant Root Group elevation).
+> - **Deploy into existing management groups** — the deployment targets your pre-existing management group hierarchy rather than creating a new one from scratch.
+> - **Single management group picker** — the portal form uses Azure's built-in management group selector. Simply pick your top-level management group from the dropdown on the *Deployment settings* tab; no manual ID entry needed.
 
 [![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fd0307e9%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2Fd0307e9%2FeslzArm%2Feslz-portal.json)
+
+### Prerequisites
+
+- An **existing management group** to deploy into.
+- **Owner** role assigned on that management group (tenant root access is not required).
 
 You can find all of the implementation options for Azure Landing Zones here: [aka.ms/alz/aac](https://aka.ms/alz/aac#platform)
 
