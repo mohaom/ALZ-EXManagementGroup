@@ -167,7 +167,7 @@
                             "name": "platformSubscription",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Platform subscription options",
-                            "defaultValue": "Dedicated (recommended)",
+                            "defaultValue": "Single",
                             "toolTip": "If 'Dedicated (recommended)' is selected, dedicated Subscriptions will be used for deploying connectivity, identity and management resources. Select Single for testing purposes where all roles will be deployed in a single subscription.",
                             "constraints": {
                                 "allowedValues": [
