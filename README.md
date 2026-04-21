@@ -61,7 +61,7 @@ The Azure Landing Zones (Enterprise-Scale Architecture) is modular by design and
 > - **Deploy into existing management groups** — the deployment targets your pre-existing management group hierarchy rather than creating a new one from scratch.
 > - **Single management group picker** — the portal form uses Azure's built-in management group selector. Simply pick your top-level management group from the dropdown on the *Deployment settings* tab; no manual ID entry needed.
 
-[![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2F75e6c53%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2F75e6c53%2FeslzArm%2Feslz-portal.json)
+[![Deploy To Azure](https://learn.microsoft.com/en-us/azure/templates/media/deploy-to-azure.svg)](https://portal.azure.com/#view/Microsoft_Azure_CreateUIDef/CustomDeploymentBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2F3a90f97%2FeslzArm%2FeslzArm.json/uiFormDefinitionUri/https%3A%2F%2Fraw.githubusercontent.com%2Fmohaom%2FALZ-EXManagementGroup%2F3a90f97%2FeslzArm%2Feslz-portal.json)
 
 ### Prerequisites
 
