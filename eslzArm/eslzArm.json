@@ -1879,6 +1879,22 @@
             "decommissionedManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').decommissioned)]",
             "sandboxManagementGroup": "[tenantResourceId('Microsoft.Management/managementGroups/', variables('mgmtGroups').sandboxes)]"
         },
+        // Declaring scope NAMES for use as the 'scope' property on cross-MG nested deployments in a management-group-scoped template.
+        // Per docs, the required format is 'Microsoft.Management/managementGroups/<mg-name>' (no leading slash, no 'providers/' prefix).
+        // Use variables('scopes').* for values passed INTO sub-templates that expect a full resource id.
+        "scopeNames": {
+            "eslzRootManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').eslzRoot)]",
+            "platformManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').platform)]",
+            "securityManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').security)]",
+            "managementManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').management)]",
+            "connectivityManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').connectivity)]",
+            "identityManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').identity)]",
+            "lzsManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').lzs)]",
+            "corpManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').corp)]",
+            "onlineManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').online)]",
+            "decommissionedManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').decommissioned)]",
+            "sandboxManagementGroup": "[concat('Microsoft.Management/managementGroups/', variables('mgmtGroups').sandboxes)]"
+        },
         // Declaring root uris for external dependency repositories.
         "rootUris": {
             "monitorRepo": "https://raw.githubusercontent.com/Azure/azure-monitor-baseline-alerts/2026-03-06/"
@@ -2646,7 +2662,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "alz-prerequisites",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').initiativeDeploymentName]",
@@ -2686,7 +2702,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "alz-prerequisites",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[variables('deploymentNames').initiativeDeploymentName]",
@@ -2730,7 +2746,7 @@
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').secSubscriptionPlacement]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').securityManagementGroup]",
+            "scope": "[variables('scopeNames').securityManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]"
             ],
@@ -2757,7 +2773,7 @@
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').mgmtSubscriptionPlacement]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').managementManagementGroup]",
+            "scope": "[variables('scopeNames').managementManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]"
             ],
@@ -2784,7 +2800,7 @@
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').connectivitySubscriptionPlacement]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]"
             ],
@@ -2811,7 +2827,7 @@
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').identitySubscriptionPlacement]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[variables('scopeNames').identityManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]"
             ],
@@ -3056,7 +3072,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').asbPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtSubscriptionPlacement)]",
@@ -3079,7 +3095,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').asb2PolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtSubscriptionPlacement)]",
@@ -3106,7 +3122,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').monitorServiceHealthBuiltInDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtSubscriptionPlacement)]",
@@ -4644,7 +4660,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').resourceDiagnosticsPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtSubscriptionPlacement)]",
@@ -4677,7 +4693,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').activityDiagnosticsPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -4705,7 +4721,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').costOptimizationDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -4729,7 +4745,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').trustedLaunchDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -4753,7 +4769,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').zoneResilientDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -4777,7 +4793,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').resourceRgLocationDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -4882,7 +4898,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ascPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -4952,7 +4968,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').atpOssDbPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]"
@@ -4979,7 +4995,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').atpSqlDbPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]"
@@ -5006,7 +5022,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').mdEndpointsDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]"
@@ -5033,7 +5049,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').mdEndpointsAMADeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]"
@@ -5060,7 +5076,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').denyClassicResourcePolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]",
@@ -5088,7 +5104,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').denyVMUnmanagedDiskPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -5112,7 +5128,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ascGovPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -5158,7 +5174,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').denyActionDeleteUAMIAMAPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -5252,7 +5268,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ddosHubPolicyDeploymentName]",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').ddosDeploymentName)]"
@@ -5281,7 +5297,7 @@
             "condition": "[and(not(empty(parameters('connectivitySubscriptionId'))), equals(parameters('enableHub'), 'vhub'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "name": "[variables('deploymentNames').vnetConnectivityHubDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').connectivitySubscriptionPlacement)]",
@@ -5522,7 +5538,7 @@
             "condition": "[and(not(empty(parameters('connectivitySubscriptionId'))),equals(parameters('enableHub'), 'nva'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "name": "[variables('deploymentNames').nvaConnectivityHubDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').connectivitySubscriptionPlacement)]",
@@ -5613,7 +5629,7 @@
             "condition": "[and(not(empty(parameters('connectivitySubscriptionId'))),equals(parameters('enableHub'), 'vwan'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "name": "[variables('deploymentNames').vwanConnectivityHubDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').connectivitySubscriptionPlacement)]",
@@ -6246,7 +6262,7 @@
             "apiVersion": "2019-10-01",
             "name": "[variables('deploymentNames').avnmPolicyDeploymentName]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').avnmConnectivityHubDeploymentName)]"
             ],
@@ -6285,7 +6301,7 @@
             "apiVersion": "2019-10-01",
             "name": "[variables('esLiteDeploymentNames').avnmLitePolicyDeploymentName]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').avnmLiteConnectivityHubDeploymentName)]"
             ],
@@ -6490,7 +6506,7 @@
             "condition": "[and(not(empty(parameters('connectivitySubscriptionId'))),  equals(parameters('enableSecondaryRegion'), 'Yes'), equals(parameters('enableHubSecondary'), 'vhub'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "name": "[variables('deploymentNames').vnetConnectivityHub2DeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').connectivitySubscriptionPlacement)]",
@@ -6731,7 +6747,7 @@
             "condition": "[and(not(empty(parameters('connectivitySubscriptionId'))),equals(parameters('enableSecondaryRegion'), 'Yes'), equals(parameters('enableHubSecondary'), 'nva'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').connectivityManagementGroup]",
+            "scope": "[variables('scopeNames').connectivityManagementGroup]",
             "name": "[variables('deploymentNames').nvaConnectivityHub2DeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').connectivitySubscriptionPlacement)]",
@@ -6963,7 +6979,7 @@
             "apiVersion": "2019-10-01",
             "name": "[variables('deploymentNames').privateDnsPolicyDeploymentName]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtGroupDeploymentName)]",
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').mgmtGroupLiteDeploymentName)]",
@@ -7029,7 +7045,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7067,7 +7083,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7108,7 +7124,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmssMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7146,7 +7162,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmssMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7187,7 +7203,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmHybridMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7221,7 +7237,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azVmHybridMonitorPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7258,7 +7274,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azureUpdateManagerPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7291,7 +7307,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azureUpdateManagerPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7324,7 +7340,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7362,7 +7378,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7403,7 +7419,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmssDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7441,7 +7457,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmssDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7482,7 +7498,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmArcDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7516,7 +7532,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ChangeTrackingVmArcDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7553,7 +7569,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').MDFCDefenderSqlAmaDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7602,7 +7618,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').MDFCDefenderSqlAmaDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').monitoringDeploymentName)]",
@@ -7654,7 +7670,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azBackupLzPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7681,7 +7697,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ddosLzPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').ddosDeploymentName)]"
@@ -7711,7 +7727,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').aksPrivEscalationPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7735,7 +7751,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').aksPrivilegedPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7759,7 +7775,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').aksHttpsPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7783,7 +7799,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').tlsSslPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7810,7 +7826,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').ipFwPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7834,7 +7850,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').publicEndpointPolicyDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7861,7 +7877,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').pipOnNicPolicyDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7885,7 +7901,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').mgmtFromInternetPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7911,7 +7927,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').privateSubnetDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7937,7 +7953,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').privateSubnetDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7964,7 +7980,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').storageHttpsPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -7988,7 +8004,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').kvGuardrailsPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8015,7 +8031,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').kvGuardrailsPolicyPlatDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8042,7 +8058,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').backupPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8069,7 +8085,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').backupPlatPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8096,7 +8112,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').guestAttPlatPolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8126,7 +8142,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').guestAttLZPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8156,7 +8172,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').denyHybridNetworkingPolicyDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8180,7 +8196,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').auditPeDnsZonesPolicyDeploymentName]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8210,7 +8226,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').auditAppGWWafPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8234,7 +8250,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').enforceACSBPolicyDeploymentName]",
-            "scope": "[variables('scopes').eslzRootManagementGroup]",
+            "scope": "[variables('scopeNames').eslzRootManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8261,7 +8277,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').subnetNsgPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8288,7 +8304,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').sqlAuditPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').mgmtSubscriptionPlacement)]",
@@ -8381,7 +8397,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').sqlEncryptionPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8408,7 +8424,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').sqlThreatPolicyDeploymentName]",
-            "scope": "[variables('scopes').lzsManagementGroup]",
+            "scope": "[variables('scopeNames').lzsManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8435,7 +8451,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').decommissionPolicyDeploymentName]",
-            "scope": "[variables('scopes').decommissionedManagementGroup]",
+            "scope": "[variables('scopeNames').decommissionedManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8462,7 +8478,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').sandboxPolicyDeploymentName]",
-            "scope": "[variables('scopes').sandboxManagementGroup]",
+            "scope": "[variables('scopeNames').sandboxManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8492,7 +8508,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').azBackupIdentityPolicyDeploymentName]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[variables('scopeNames').identityManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites"
@@ -8519,7 +8535,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').pipPolicyDeploymentName]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[variables('scopeNames').identityManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites",
@@ -8544,7 +8560,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').subnetNsgIdentityPolicyDeploymentName]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[variables('scopeNames').identityManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites",
@@ -8572,7 +8588,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('deploymentNames').mgmtFromInternetIdentityPolicyDeploymentName]",
-            "scope": "[variables('scopes').identityManagementGroup]",
+            "scope": "[variables('scopeNames').identityManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites",
@@ -8791,7 +8807,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('deploymentNames').onlineLzSubs, copyIndex())]",
-            "scope": "[variables('scopes').onlineManagementGroup]",
+            "scope": "[variables('scopeNames').onlineManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -8826,7 +8842,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('deploymentNames').corpLzSubs, copyIndex())]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -8861,7 +8877,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[concat(variables('deploymentNames').corpConnectedMoveLzSubs, copyIndex())]",
-            "scope": "[variables('scopes').corpManagementGroup]",
+            "scope": "[variables('scopeNames').corpManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('deploymentNames').policyDeploymentName)]",
@@ -9039,7 +9055,7 @@
             "apiVersion": "2024-11-01",
             "name": "[variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement]",
             "location": "[deployment().location]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').mgmtGroupLiteDeploymentName)]"
             ],
@@ -9373,7 +9389,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLiteDeploymentNames').ddosHubLitePolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').ddosLiteDeploymentName)]"
@@ -9405,7 +9421,7 @@
             "condition": "[and(not(empty(parameters('singlePlatformSubscriptionId'))),equals(parameters('enableHub'), 'vhub'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "name": "[variables('esLitedeploymentNames').vnetConnectivityHubLiteDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]",
@@ -9502,7 +9518,7 @@
             "condition": "[and(not(empty(parameters('singlePlatformSubscriptionId'))),equals(parameters('enableHub'), 'nva'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "name": "[variables('esLitedeploymentNames').nvaConnectivityHubLiteDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]",
@@ -9581,7 +9597,7 @@
             "condition": "[and(not(empty(parameters('singlePlatformSubscriptionId'))),equals(parameters('enableHub'), 'vwan'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "name": "[variables('esLitedeploymentNames').vwanConnectivityHubLiteDeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]",
@@ -9710,7 +9726,7 @@
             "condition": "[and(not(empty(parameters('singlePlatformSubscriptionId'))), equals(parameters('enableSecondaryRegion'), 'Yes'), equals(parameters('enableHubSecondary'), 'vhub'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "name": "[variables('esLitedeploymentNames').vnetConnectivityHubLite2DeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]",
@@ -9807,7 +9823,7 @@
             "condition": "[and(not(empty(parameters('singlePlatformSubscriptionId'))), equals(parameters('enableSecondaryRegion'), 'Yes'), equals(parameters('enableHubSecondary'), 'nva'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2019-05-01",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "name": "[variables('esLitedeploymentNames').nvaConnectivityHubLite2DeploymentName]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]",
@@ -10143,7 +10159,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLitedeploymentNames').azBackupIdentityLitePolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/deployments', variables('esLiteDeploymentNames').platformLiteSubscriptionPlacement)]"
@@ -10173,7 +10189,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLitedeploymentNames').subnetNsgIdentityLitePolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites",
@@ -10204,7 +10220,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2024-11-01",
             "name": "[variables('esLitedeploymentNames').mgmtFromInternetIdentityLitePolicyDeploymentName]",
-            "scope": "[variables('scopes').platformManagementGroup]",
+            "scope": "[variables('scopeNames').platformManagementGroup]",
             "location": "[deployment().location]",
             "dependsOn": [
                 "alz-prerequisites",
