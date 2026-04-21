@@ -11144,7 +11144,7 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[steps('basics').enterpriseScaleCompanyPrefix]",
+            "managementGroupId": "[concat('/providers/Microsoft.Management/managementGroups/', steps('basics').enterpriseScaleCompanyPrefix)]",
             "location": "[steps('basics').resourceScope.location.name]"
         }
     }
