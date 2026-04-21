@@ -44,6 +44,7 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[variables('enterpriseScaleManagementGroups').platform]",
+            "scope": "/",
             "properties": {
                 "displayName": "[variables('enterpriseScaleManagementGroups').platform]",
                 "details": {
@@ -57,6 +58,7 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[variables('enterpriseScaleManagementGroups').landingZone]",
+            "scope": "/",
             "properties": {
                 "displayName": "[variables('enterpriseScaleManagementGroups').landingZone]",
                 "details": {
@@ -70,6 +72,7 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[variables('enterpriseScaleManagementGroups').sandboxes]",
+            "scope": "/",
             "properties": {
                 "displayName": "[variables('enterpriseScaleManagementGroups').sandboxes]",
                 "details": {
@@ -83,6 +86,7 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[variables('enterpriseScaleManagementGroups').decommissioned]",
+            "scope": "/",
             "properties": {
                 "displayName": "[variables('enterpriseScaleManagementGroups').decommissioned]",
                 "details": {
@@ -97,8 +101,9 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[concat(parameters('topLevelManagementGroupPrefix'), '-', parameters('platformMgs')[copyIndex()])]",
+            "scope": "/",
             "dependsOn": [
-                "[concat('/providers/Microsoft.Management/managementGroups/', variables('enterpriseScaleManagementGroups').platform)]"
+                "[extensionResourceId('/providers/Microsoft.Management/managementGroups/', 'Microsoft.Management/managementGroups', variables('enterpriseScaleManagementGroups').platform)]"
             ],
             "copy": {
                 "name": "platformMgCopy",
@@ -118,8 +123,9 @@
             "type": "Microsoft.Management/managementGroups",
             "apiVersion": "2023-04-01",
             "name": "[concat(parameters('topLevelManagementGroupPrefix'), '-', parameters('landingZoneMgs')[copyIndex()])]",
+            "scope": "/",
             "dependsOn": [
-                "[concat('/providers/Microsoft.Management/managementGroups/', variables('enterpriseScaleManagementGroups').landingZone)]"
+                "[extensionResourceId('/providers/Microsoft.Management/managementGroups/', 'Microsoft.Management/managementGroups', variables('enterpriseScaleManagementGroups').landingZone)]"
             ],
             "copy": {
                 "name": "lzMgCopy",
