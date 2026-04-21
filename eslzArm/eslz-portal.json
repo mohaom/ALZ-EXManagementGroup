@@ -96,6 +96,18 @@
                             }
                         },
                         {
+                            "name": "enterpriseScaleCompanyPrefix",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Root Management Group",
+                            "toolTip": "Select the existing top-level management group that ALZ policies and configurations will be deployed to. Only management groups you have access to are listed.",
+                            "filter": true,
+                            "filterPlaceholder": "Filter management groups...",
+                            "constraints": {
+                                "required": true,
+                                "allowedValues": "[map(steps('basics').getManagementGroups.data, (item) => parse(concat('{\"label\":\"', item.label, ' (', item.value, ')\",\"value\":\"', item.value, '\"}')))]"
+                            }
+                        },
+                        {
                             "name": "deploymentLocation",
                             "type": "Microsoft.Common.DropDown",
                             "label": "Deployment location",
@@ -149,18 +161,6 @@
                                 "text": "This deployment will create the ALZ default Management Group hierarchy with Names/IDs that are documented in the FAQ (click on this box to be taken to this page). If you have existing Management Groups that have the same Names/IDs these will be targeted in the ALZ deployment (click on this box to find out how to handle this or to see what will happen)",
                                 "style": "Warning",
                                 "uri": "https://github.com/Azure/Enterprise-Scale/wiki/FAQ#what-happens-if-i-have-existing-management-groups-that-have-the-same-nameids-as-ones-that-will-be-deployed-in-the-alz-portal-accelerator"
-                            }
-                        },
-                        {
-                            "name": "enterpriseScaleCompanyPrefix",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Root Management Group",
-                            "toolTip": "Select the existing top-level management group that ALZ policies and configurations will be deployed to. Only management groups you have access to are listed.",
-                            "filter": true,
-                            "filterPlaceholder": "Filter management groups...",
-                            "constraints": {
-                                "required": true,
-                                "allowedValues": "[map(steps('basics').getManagementGroups.data, (item) => parse(concat('{\"label\":\"', item.label, ' (', item.value, ')\",\"value\":\"', item.value, '\"}')))]"
                             }
                         },
                         {
@@ -10863,7 +10863,7 @@
         },
         "outputs": {
             "parameters": {
-                "enterpriseScaleCompanyPrefix": "[steps('core').enterpriseScaleCompanyPrefix]",
+                "enterpriseScaleCompanyPrefix": "[steps('basics').enterpriseScaleCompanyPrefix]",
                 "singlePlatformSubscriptionId": "[steps('core').singleSubscription.selector]",
                 "denyClassicResources": "[steps('core').denyClassicResources]",
                 "denyVMUnmanagedDisk": "[steps('core').denyVMUnmanagedDisk]",
@@ -11165,7 +11165,7 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[steps('core').enterpriseScaleCompanyPrefix]",
+            "managementGroupId": "[steps('basics').enterpriseScaleCompanyPrefix]",
             "location": "[location()]"
         }
     }
