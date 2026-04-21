@@ -55,10 +55,6 @@
                             ]
                         },
                         {
-                            "name": "resourceScope",
-                            "type": "Microsoft.Common.ResourceScope"
-                        },
-                        {
                             "name": "getSubscriptions",
                             "type": "Microsoft.Solutions.ArmApiControl",
                             "request": {
@@ -92,8 +88,11 @@
                             "name": "getManagementGroups",
                             "type": "Microsoft.Solutions.ArmApiControl",
                             "request": {
-                                "method": "GET",
-                                "path": "/providers/Microsoft.Management/managementGroups?api-version=2020-05-01"
+                                "method": "POST",
+                                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                                "body": {
+                                    "query": "ResourceContainers | where type =~ 'microsoft.management/managementgroups' | project label=tostring(properties.displayName), description=name, value=name | order by label asc"
+                                }
                             }
                         },
                         {
@@ -161,7 +160,7 @@
                             "filterPlaceholder": "Filter management groups...",
                             "constraints": {
                                 "required": true,
-                                "allowedValues": "[map(steps('basics').getManagementGroups.value, (item) => parse(concat('{\"label\":\"', item.properties.displayName, ' (', item.name, ')\",\"value\":\"', item.name, '\"}')))]"
+                                "allowedValues": "[map(steps('basics').getManagementGroups.data, (item) => parse(concat('{\"label\":\"', item.label, ' (', item.value, ')\",\"value\":\"', item.value, '\"}')))]"
                             }
                         },
                         {
