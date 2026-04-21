@@ -87,6 +87,18 @@
                         {
                             "name": "resourceScope",
                             "type": "Microsoft.Common.ResourceScope"
+                        },
+                        {
+                            "name": "enterpriseScaleCompanyPrefix",
+                            "type": "Microsoft.Common.TextBox",
+                            "label": "Management Group ID",
+                            "toolTip": "Enter the ID (short name) of your existing top-level management group. This must match the management group where you have Owner permission.",
+                            "defaultValue": "",
+                            "constraints": {
+                                "required": true,
+                                "regex": "^[a-zA-Z0-9][a-zA-Z0-9.-]{0,88}[a-zA-Z0-9]$|^[a-zA-Z0-9]$",
+                                "validationMessage": "Enter a valid management group ID (1-90 characters: letters, numbers, hyphens, dots)."
+                            }
                         }
                     ]
                 },
@@ -10830,7 +10842,7 @@
         },
         "outputs": {
             "parameters": {
-                "enterpriseScaleCompanyPrefix": "[steps('basics').resourceScope.managementGroup.name]",
+                "enterpriseScaleCompanyPrefix": "[steps('basics').enterpriseScaleCompanyPrefix]",
                 "singlePlatformSubscriptionId": "[steps('core').singleSubscription.selector]",
                 "denyClassicResources": "[steps('core').denyClassicResources]",
                 "denyVMUnmanagedDisk": "[steps('core').denyVMUnmanagedDisk]",
@@ -11132,7 +11144,7 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[steps('basics').resourceScope.managementGroup.name]",
+            "managementGroupId": "[steps('basics').enterpriseScaleCompanyPrefix]",
             "location": "[steps('basics').resourceScope.location.name]"
         }
     }
