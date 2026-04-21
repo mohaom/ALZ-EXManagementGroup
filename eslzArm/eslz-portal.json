@@ -88,28 +88,7 @@
                                 }
                             }
                         },
-                        {
-                            "name": "getManagementGroups",
-                            "type": "Microsoft.Solutions.ArmApiControl",
-                            "request": {
-                                "method": "POST",
-                                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
-                                "body": {
-                                    "query": "ResourceContainers | where type =~ 'microsoft.management/managementgroups' | project label=tostring(properties.displayName), description=name, value=name | order by label asc"
-                                }
-                            }
-                        },
-                        {
-                            "name": "enterpriseScaleCompanyPrefix",
-                            "type": "Microsoft.Common.DropDown",
-                            "label": "Top-level management group",
-                            "toolTip": "Select the existing top-level management group to deploy into. Its ID will be used as the deployment target and naming prefix.",
-                            "filter": true,
-                            "constraints": {
-                                "required": true,
-                                "allowedValues": "[steps('basics').getManagementGroups.data]"
-                            }
-                        }
+
                     ]
                 },
                 {
@@ -10852,7 +10831,7 @@
         },
         "outputs": {
             "parameters": {
-                "enterpriseScaleCompanyPrefix": "[steps('basics').enterpriseScaleCompanyPrefix]",
+                "enterpriseScaleCompanyPrefix": "[steps('basics').resourceScope.managementGroup.name]",
                 "singlePlatformSubscriptionId": "[steps('core').singleSubscription.selector]",
                 "denyClassicResources": "[steps('core').denyClassicResources]",
                 "denyVMUnmanagedDisk": "[steps('core').denyVMUnmanagedDisk]",
@@ -11154,7 +11133,7 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[concat('/providers/Microsoft.Management/managementGroups/', steps('basics').enterpriseScaleCompanyPrefix)]",
+            "managementGroupId": "[steps('basics').resourceScope.managementGroup.id]",
             "location": "[steps('basics').resourceScope.location.name]"
         }
     }
