@@ -85,16 +85,8 @@
                             }
                         },
                         {
-                            "name": "enterpriseScaleCompanyPrefix",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Management Group ID",
-                            "toolTip": "Enter the ID of your existing top-level management group where ALZ will be deployed. Use the management group ID (short name), not the display name.",
-                            "defaultValue": "",
-                            "constraints": {
-                                "required": true,
-                                "regex": "^[a-zA-Z0-9][a-zA-Z0-9-]{0,88}[a-zA-Z0-9]$|^[a-zA-Z0-9]$",
-                                "validationMessage": "Enter a valid management group ID (1-90 characters: letters, numbers, hyphens)."
-                            }
+                            "name": "resourceScope",
+                            "type": "Microsoft.Common.ResourceScope"
                         }
                     ]
                 },
@@ -10838,7 +10830,7 @@
         },
         "outputs": {
             "parameters": {
-                "enterpriseScaleCompanyPrefix": "[steps('basics').enterpriseScaleCompanyPrefix]",
+                "enterpriseScaleCompanyPrefix": "[steps('basics').resourceScope.managementGroup.name]",
                 "singlePlatformSubscriptionId": "[steps('core').singleSubscription.selector]",
                 "denyClassicResources": "[steps('core').denyClassicResources]",
                 "denyVMUnmanagedDisk": "[steps('core').denyVMUnmanagedDisk]",
@@ -10874,8 +10866,8 @@
                 "enableServiceHealth": "[steps('monitor').enableServiceHealth]",
                 "enableServiceHealthBuiltIn": "[steps('monitor').esServiceHealthBuiltInTitle.enableServiceHealthBuiltIn]",
                 "enableMonitorBaselines": "[steps('monitor').enableMonitorBaselines]",
-                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', location()))]",
-                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', location()))]",
+                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', steps('basics').resourceScope.location.name))]",
+                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', steps('basics').resourceScope.location.name))]",
                 "ambaAgEmailContact": "[steps('monitor').esAmbaAgConfig.ambaAgEmailContact]",
                 "ambaAgArmRole": "[steps('monitor').esAmbaAgConfig.ambaAgArmRole]",
                 "ambaAgServiceHook": "[steps('monitor').esAmbaAgConfig.ambaAgServiceHook]",
@@ -11140,8 +11132,8 @@
                 }
             },
             "kind": "ManagementGroup",
-            "managementGroupId": "[steps('basics').enterpriseScaleCompanyPrefix]",
-            "location": "[location()]"
+            "managementGroupId": "[steps('basics').resourceScope.managementGroup.name]",
+            "location": "[steps('basics').resourceScope.location.name]"
         }
     }
 }
