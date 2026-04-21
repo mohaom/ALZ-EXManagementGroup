@@ -89,15 +89,25 @@
                             }
                         },
                         {
+                            "name": "getManagementGroups",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "POST",
+                                "path": "/providers/Microsoft.ResourceGraph/resources?api-version=2021-03-01",
+                                "body": {
+                                    "query": "ResourceContainers | where type =~ 'microsoft.management/managementgroups' | project label=tostring(properties.displayName), description=name, value=name | order by label asc"
+                                }
+                            }
+                        },
+                        {
                             "name": "enterpriseScaleCompanyPrefix",
-                            "type": "Microsoft.Common.TextBox",
-                            "label": "Management Group prefix / Company prefix",
-                            "toolTip": "Enter the ID of your existing top-level management group (e.g. 'contoso'). This is used as the deployment target and as a naming prefix for resources.",
-                            "defaultValue": "",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Top-level management group",
+                            "toolTip": "Select the existing top-level management group to deploy into. Its ID will be used as the deployment target and naming prefix.",
+                            "filter": true,
                             "constraints": {
                                 "required": true,
-                                "regex": "^[a-zA-Z0-9][a-zA-Z0-9.-]{0,88}[a-zA-Z0-9]$|^[a-zA-Z0-9]$",
-                                "validationMessage": "Enter a valid management group ID (1-90 characters: letters, numbers, hyphens, dots)."
+                                "allowedValues": "[steps('basics').getManagementGroups.data]"
                             }
                         }
                     ]
