@@ -10878,8 +10878,8 @@
                 "enableServiceHealth": "[steps('monitor').enableServiceHealth]",
                 "enableServiceHealthBuiltIn": "[steps('monitor').esServiceHealthBuiltInTitle.enableServiceHealthBuiltIn]",
                 "enableMonitorBaselines": "[steps('monitor').enableMonitorBaselines]",
-                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', steps('basics').resourceScope.location.name))]",
-                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', steps('basics').resourceScope.location.name))]",
+                "monitorAlertsResourceGroup": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.monitorAlertsResourceGroup, concat('rg-amba-prod-', location()))]",
+                "userAssignedManagedIdentityName": "[if(equals(steps('core').namingConvention, 'custom'), steps('monitor').esAmbaAgConfig.userAssignedManagedIdentityName, concat('id-amba-prod-', location()))]",
                 "ambaAgEmailContact": "[steps('monitor').esAmbaAgConfig.ambaAgEmailContact]",
                 "ambaAgArmRole": "[steps('monitor').esAmbaAgConfig.ambaAgArmRole]",
                 "ambaAgServiceHook": "[steps('monitor').esAmbaAgConfig.ambaAgServiceHook]",
@@ -11145,7 +11145,7 @@
             },
             "kind": "ManagementGroup",
             "managementGroupId": "[steps('basics').enterpriseScaleCompanyPrefix]",
-            "location": "[steps('basics').resourceScope.location.name]"
+            "location": "[location()]"
         }
     }
 }
