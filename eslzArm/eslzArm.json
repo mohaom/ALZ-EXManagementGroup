@@ -8596,7 +8596,7 @@
         },
         {
             // Peer vnet in identity subscription to connectivity hub if vhub or nva condition is true
-            "condition": "[and(or(equals(parameters('enableHub'), 'nva'), equals(parameters('enableHub'), 'vhub')), not(empty(parameters('identityAddressPrefix'))))]",
+            "condition": "[and(not(empty(parameters('identitySubscriptionId'))), and(or(equals(parameters('enableHub'), 'nva'), equals(parameters('enableHub'), 'vhub')), not(empty(parameters('identityAddressPrefix')))))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').identityPeeringDeploymentName]",
@@ -8643,7 +8643,7 @@
         },
         {
             // Peer vnet in identity subscription to connectivity hub in a secondary region if vhub or nva condition is true
-            "condition": "[and(or(equals(parameters('enableHubSecondary'), 'nva'), equals(parameters('enableHub'), 'vhub')), not(empty(parameters('identityAddressPrefixSecondary'))))]",
+            "condition": "[and(not(empty(parameters('identitySubscriptionId'))), and(or(equals(parameters('enableHubSecondary'), 'nva'), equals(parameters('enableHub'), 'vhub')), not(empty(parameters('identityAddressPrefixSecondary')))))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').identityPeering2DeploymentName]",
@@ -8690,7 +8690,7 @@
         },
         {
             // Peer vnet in identity subscription to connectivity hub if vwan condition is true
-            "condition": "[and(equals(parameters('enableHub'), 'vwan'), not(empty(parameters('identityAddressPrefix'))))]",
+            "condition": "[and(not(empty(parameters('identitySubscriptionId'))), and(equals(parameters('enableHub'), 'vwan'), not(empty(parameters('identityAddressPrefix')))))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').identityVwanPeeringDeploymentName]",
@@ -8737,7 +8737,7 @@
         },
         {
             // Peer vnet in identity subscription to connectivity hub if vwan condition is true
-            "condition": "[and(equals(parameters('enableHubSecondary'), 'vwan'), not(empty(parameters('identityAddressPrefixSecondary'))))]",
+            "condition": "[and(not(empty(parameters('identitySubscriptionId'))), and(equals(parameters('enableHubSecondary'), 'vwan'), not(empty(parameters('identityAddressPrefixSecondary')))))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2020-06-01",
             "name": "[variables('deploymentNames').identityVwanPeering2DeploymentName]",
